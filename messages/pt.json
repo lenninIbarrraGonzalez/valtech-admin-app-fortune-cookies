@@ -5,5 +5,6 @@
   "admin-example.navigation.details.search.kws": "detalhe, mock, test, oi",
   "admin-example.navigation.table.search.kws": "tabela, mock, test, tchau",
   "admin-example.hello-world": "Admin de exemplo",
-  "admin-example.details": "Admin detalhes"
+  "admin-example.details": "Admin detalhes",
+  "admin/fortune-cookies.title": "biscoitos da sorte"
 }
