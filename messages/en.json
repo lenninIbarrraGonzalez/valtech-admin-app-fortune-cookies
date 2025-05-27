@@ -1,13 +1,8 @@
 {
-  "admin-example.navigation.label-group": "Example admins",
-  "admin-example.navigation.label-table": "Example table",
-  "admin-example.navigation.search.kws": "test, mock, fake",
-  "admin-example.navigation.details.search.kws": "details, mock, test, hello",
-  "admin-example.navigation.table.search.kws": "table, mock, test, bye",
-  "admin-example.hello-world": "Example Admin",
-  "admin-example.details": "Details page",
-
-  "admin/fortune-cookies.title": "Fortune cookies"
-
+  "admin/fortune-cookies.title": "Fortune cookies",
+  "admin/fortune-cookies.title-column": "Fortune cookies",
+  "admin/fortune-cookies.empty-state-text": "There are no fortune cookies.s",
+  "admin/fortune-cookies.empty-state-message": "Enter a cookie in the input",
+  "admin/fortune-cookies.error-state-message": "There was an error on the server, please try again."
 
 }

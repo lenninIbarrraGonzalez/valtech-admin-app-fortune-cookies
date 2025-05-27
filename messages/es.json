@@ -1,11 +1,7 @@
 {
-  "admin-example.navigation.label-group": "Admins de ejemplo",
-  "admin-example.navigation.label-table": "Ejemplo de tabela",
-  "admin-example.navigation.search.kws": "teste, mock, fake",
-  "admin-example.navigation.details.search.kws": "detalhe, mock, test, oi",
-  "admin-example.navigation.table.search.kws": "tabela, mock, test, tchau",
-  "admin-example.hello-world": "Admin de ejemplo",
-  "admin-example.details": "Página de detalles",
-
-  "admin/fortune-cookies.title": "Galletas de la fortuna"
+  "admin/fortune-cookies.title": "Galletas de la fortuna",
+  "admin/fortune-cookies.title-column": "Galletas de la fortuna",
+  "admin/fortune-cookies.empty-state-text": "No existen galletas de la forutna",
+  "admin/fortune-cookies.empty-state-message": "Ingresa una galleta en el input",
+  "admin/fortune-cookies.error-state-message": "hubo un error en el servidor vuelve a intentarlo"
 }

@@ -1,10 +1,8 @@
 {
-  "admin-example.navigation.label-group": "Admin de exemplo",
-  "admin-example.navigation.label-table": "Exemplo de tabela",
-  "admin-example.navigation.search.kws": "teste, mock, fake",
-  "admin-example.navigation.details.search.kws": "detalhe, mock, test, oi",
-  "admin-example.navigation.table.search.kws": "tabela, mock, test, tchau",
-  "admin-example.hello-world": "Admin de exemplo",
-  "admin-example.details": "Admin detalhes",
-  "admin/fortune-cookies.title": "biscoitos da sorte"
+  "admin/fortune-cookies.title": "biscoitos da sorte",
+  "admin/fortune-cookies.title-column":"biscoitos da sorte",
+  "admin/fortune-cookies.empty-state-text": "Não há biscoitos da sorte.",
+  "admin/fortune-cookies.empty-state-message": "Insira um cookie na entrada",
+  "admin/fortune-cookies.error-state-message": "Ocorreu um erro no servidor, tente novamente."
+
 }
