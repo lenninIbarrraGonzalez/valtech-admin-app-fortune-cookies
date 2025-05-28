@@ -2,10 +2,17 @@
   "admin/fortune-cookies.title": "Fortune cookies",
   "admin/fortune-cookies.title-column": "Fortune cookies",
   "admin/fortune-cookies.title-delete": "Delete",
-  "admin/fortune-cookies.empty-state-text": "There are no fortune cookies.s",
+  "admin/fortune-cookies.empty-state-text": "There are no fortune cookies",
   "admin/fortune-cookies.empty-state-message": "Enter a cookie in the input",
   "admin/fortune-cookies.error-state-message": "There was an error on the server, please try again.",
   "admin/fortune-cookies.save-button":"Save",
   "admin/fortune-cookies.input-placeholder":"Enter a sentence",
-  "admin/fortune-cookies.delete-button":"Delete"
+  "admin/fortune-cookies.delete-button":"Delete",
+  "admin/fortune-cookies.of-pagination":"of",
+  "admin/fortune-cookies.textShowRows-pagination":"Show rows",
+  "admin/fortune-cookies.emptyStateLabel-table":"There are no sentences",
+  "admin/fortune-cookies.isErrorTrue":"An error occurred while loading the phrases",
+  "admin/fortune-cookies.isErrorFalse":"No phrases available",
+  "admin/fortune-cookies.saveError":"The sentence could not be saved. Please try again later"
+
 }

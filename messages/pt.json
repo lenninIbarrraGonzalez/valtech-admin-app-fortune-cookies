@@ -7,6 +7,12 @@
   "admin/fortune-cookies.error-state-message": "Ocorreu um erro no servidor, tente novamente.",
   "admin/fortune-cookies.save-button":"Keep",
   "admin/fortune-cookies.input-placeholder":"Digite uma frase",
-  "admin/fortune-cookies.delete-button":"Excluir"
+  "admin/fortune-cookies.delete-button":"Excluir",
+  "admin/fortune-cookies.of-pagination":"de",
+  "admin/fortune-cookies.textShowRows-pagination":"Mostrar linhas",
+  "admin/fortune-cookies.emptyStateLabel-table":"Não há frases",
+  "admin/fortune-cookies.isErrorTrue":"Ocorreu um erro ao carregar as frases",
+  "admin/fortune-cookies.isErrorFalse":"Nenhuma frase disponível",
+  "admin/fortune-cookies.saveError":"A frase não pôde ser salva. Tente novamente mais tarde."
 
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, ChangeEvent, useState } from 'react'
 import { Table, Input, Button } from 'vtex.styleguide'
 import { useFortuneCookies } from '../../hooks/useFortuneCookies'
+import { useIntl } from 'react-intl'
 
 const AdminPanel: React.FC = () => {
   const {
@@ -16,7 +17,7 @@ const AdminPanel: React.FC = () => {
     PAGE_SIZE,
     fetchData,
   } = useFortuneCookies()
-
+  const intl = useIntl()
   const [newPhrase, setNewPhrase] = useState<string>('')
 
   useEffect(() => {
@@ -27,14 +28,14 @@ const AdminPanel: React.FC = () => {
   const schema = {
     properties: {
       text: {
-        title: 'Frase',
+        title: intl.formatMessage({ id: 'admin/fortune-cookies.title-column' }),
         width: 750,
         cellRenderer: ({ rowData }: { rowData: { text: string } }) => (
           <span>{rowData.text}</span>
         ),
       },
       actions: {
-        title: 'Eliminar',
+        title: intl.formatMessage({ id: 'admin/fortune-cookies.title-delete' }),
         width: 120,
         cellRenderer: ({ rowData }: { rowData: { id: string } }) => (
           <div className="flex items-center justify-center">
@@ -45,7 +46,7 @@ const AdminPanel: React.FC = () => {
               onClick={() => onDelete(rowData.id)}
               disabled={deletingId !== null && deletingId !== rowData.id}
             >
-              Borrar
+              {intl.formatMessage({ id: 'admin/fortune-cookies.delete-button' })}
             </Button>
           </div>
         ),
@@ -58,14 +59,14 @@ const AdminPanel: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center mb3 gap2">
+      <div className="flex items-center mb3" style={{ gap: '5px' }}>
         <Input
           value={newPhrase}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhrase(e.target.value)}
-          placeholder="Escribe una nueva frase"
+          placeholder={intl.formatMessage({ id: 'admin/fortune-cookies.empty-state-message' })}
           size="regular"
           disabled={saving}
-          className="w-50 mr3"
+          className="w-50 mr4"
         />
         <Button
           variation="primary"
@@ -79,7 +80,7 @@ const AdminPanel: React.FC = () => {
           disabled={saving || !newPhrase.trim()}
           className="w-auto"
         >
-          Guardar
+          {intl.formatMessage({ id: 'admin/fortune-cookies.save-button' })}
         </Button>
       </div>
       {saveError && (
@@ -95,12 +96,12 @@ const AdminPanel: React.FC = () => {
         density="low"
         loading={infoCookie.isLoading}
         updateTableKey={infoCookie.data.length}
-        emptyStateLabel="No hay frases"
+        emptyStateLabel={intl.formatMessage({ id: 'admin/fortune-cookies.empty-state-text' })}
         emptyStateChildren={
           <span className="c-muted-1">
             {infoCookie.hasError
-              ? "Ocurrió un error al cargar las frases"
-              : "No hay frases disponibles"}
+              ? intl.formatMessage({ id: 'admin/fortune-cookies.isErrorTrue' })
+              : intl.formatMessage({ id: 'admin/fortune-cookies.isErrorFalse' })}
           </span>
         }
         pagination={{
@@ -108,8 +109,8 @@ const AdminPanel: React.FC = () => {
           currentItemTo: to,
           onNextClick: () => setPage(prev => prev + 1),
           onPrevClick: () => setPage(prev => prev - 1),
-          textShowRows: "Mostrar filas",
-          textOf: "de",
+          textShowRows:intl.formatMessage({ id: 'admin/fortune-cookies.textShowRows-paginatio' }),
+          textOf: intl.formatMessage({ id: 'admin/fortune-cookies.of-pagination' }),
           totalItems: total,
         }}
       />

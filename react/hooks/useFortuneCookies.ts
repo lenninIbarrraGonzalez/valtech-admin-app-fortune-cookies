@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { InfoCookieState } from '../types/fortuneCookies'
+import {  InfoCookieState } from '../types/fortuneCookies'
 import { fetchFortuneCookies, saveFortuneCookie, deleteFortuneCookie } from '../services/fortuneCookiesService'
 
 const PAGE_SIZE = 10
@@ -48,7 +48,7 @@ export function useFortuneCookies() {
       await saveFortuneCookie(text)
       setTimeout(() => fetchData(page), 500)
     } catch {
-      setSaveError('No se pudo guardar la frase. Por favor, inténtalo más tarde.')
+      setSaveError('The sentence could not be saved. Please try again later.')
     } finally {
       setSaving(false)
     }
@@ -61,7 +61,7 @@ export function useFortuneCookies() {
       await deleteFortuneCookie(id)
       fetchData(page)
     } catch {
-      setSaveError('No se pudo eliminar la frase. Por favor, inténtalo más tarde.')
+      setSaveError('The phrase could not be deleted. Please try again later.')
     } finally {
       setDeletingId(null)
     }
