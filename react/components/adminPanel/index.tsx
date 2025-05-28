@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { Table } from 'vtex.styleguide'
+import { Table, Input, Button } from 'vtex.styleguide';
 import { useIntl } from 'react-intl'
 
-// Tipos y interfaces
+
 interface FortuneCookie {
   id: string
   text: string
@@ -34,6 +34,9 @@ const AdminPanel: React.FC = () => {
     hasError: false,
     error: null,
   })
+  const [newPhrase, setNewPhrase] = useState<string>('')
+  const [saving, setSaving] = useState<boolean>(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
   const intl = useIntl()
 
   const fetchData = async () => {
@@ -50,7 +53,6 @@ const AdminPanel: React.FC = () => {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       const data = await response.json()
-      // Validación: asegurarse que data es un array y tiene los campos requeridos
       const cookies: FortuneCookie[] = Array.isArray(data)
         ? data
             .filter((item: any) => item.id && item.CookieFortune)
@@ -76,6 +78,28 @@ const AdminPanel: React.FC = () => {
     }
   }
 
+  const onSave = async () => {
+    if (!newPhrase.trim()) return
+    setSaving(true)
+    setSaveError(null)
+    try {
+      const response = await fetch('/api/dataentities/CF/documents', {
+        method: 'POST',
+        headers: authHeaders,
+        body: JSON.stringify({ CookieFortune: newPhrase.trim() }),
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      setNewPhrase('')
+      fetchData()
+    } catch (error) {
+      setSaveError('No se pudo guardar la frase. Por favor, inténtalo más tarde.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
   useEffect(() => {
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,12 +119,37 @@ const AdminPanel: React.FC = () => {
 
   return (
     <>
+
+      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+        <Input
+          value={newPhrase}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPhrase(e.target.value)}
+          placeholder={intl.formatMessage({ id: 'admin/fortune-cookies.input-placeholder'})}
+          size="regular"
+          disabled={saving}
+        />
+        <Button
+          variation="primary"
+          onClick={onSave}
+          isLoading={saving}
+          disabled={saving || !newPhrase.trim()}
+        >
+          {intl.formatMessage({ id: 'admin/fortune-cookies.save-button'})}
+        </Button>
+      </div>
+      {saveError && (
+        <div style={{ color: '#e13219', marginBottom: 16, fontSize: 14 }}>
+          {saveError}
+        </div>
+      )}
+
       <Table
         fullWidth
         items={infoCookie.data}
         schema={schema}
         density="low"
         loading={infoCookie.isLoading}
+        updateTableKey={infoCookie.data.length}
         emptyStateLabel={intl.formatMessage({ id: 'admin/fortune-cookies.empty-state-text' })}
         emptyStateChildren={
           <span className="c-muted-1">
