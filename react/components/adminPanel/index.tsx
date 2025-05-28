@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { Table, Input, Button } from 'vtex.styleguide';
 import { useIntl } from 'react-intl'
 
-
 interface FortuneCookie {
   id: string
   text: string
@@ -37,6 +36,7 @@ const AdminPanel: React.FC = () => {
   const [newPhrase, setNewPhrase] = useState<string>('')
   const [saving, setSaving] = useState<boolean>(false)
   const [saveError, setSaveError] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
   const intl = useIntl()
 
   const fetchData = async () => {
@@ -92,11 +92,33 @@ const AdminPanel: React.FC = () => {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       setNewPhrase('')
-      fetchData()
+
+      setTimeout(() => {
+        fetchData()
+      }, 500)
     } catch (error) {
       setSaveError('No se pudo guardar la frase. Por favor, inténtalo más tarde.')
     } finally {
       setSaving(false)
+    }
+  }
+
+  const onDelete = async (id: string) => {
+    setDeletingId(id)
+    setSaveError(null)
+    try {
+      const response = await fetch(`/api/dataentities/CF/documents/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders,
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      fetchData()
+    } catch (error) {
+      setSaveError('No se pudo eliminar la frase. Por favor, inténtalo más tarde.')
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -109,9 +131,30 @@ const AdminPanel: React.FC = () => {
     properties: {
       text: {
         title: intl.formatMessage({ id: 'admin/fortune-cookies.title-column' }),
-        width: 800,
+        width: 750,
         cellRenderer: ({ rowData }: { rowData: FortuneCookie }) => (
           <span>{rowData.text}</span>
+        ),
+      },
+      actions: {
+        title: intl.formatMessage({ id: 'admin/fortune-cookies.title-delete' }),
+        width: 120,
+        cellRenderer: ({ rowData }: { rowData: FortuneCookie }) => (
+          <div className="flex items-center justify-center">
+            <Button
+              variation="danger"
+              size="small"
+              isLoading={deletingId === rowData.id}
+              onClick={() => onDelete(rowData.id)}
+              disabled={deletingId !== null && deletingId !== rowData.id}
+
+            >
+              {intl.formatMessage({
+                id: 'admin/fortune-cookies.delete-button',
+                defaultMessage: 'Delete',
+              })}
+            </Button>
+          </div>
         ),
       },
     },
@@ -119,26 +162,27 @@ const AdminPanel: React.FC = () => {
 
   return (
     <>
-
-      <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+      <div className="flex items-center mb3 gap2">
         <Input
           value={newPhrase}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPhrase(e.target.value)}
           placeholder={intl.formatMessage({ id: 'admin/fortune-cookies.input-placeholder'})}
           size="regular"
           disabled={saving}
+          className="w-50 mr3"
         />
         <Button
           variation="primary"
           onClick={onSave}
           isLoading={saving}
           disabled={saving || !newPhrase.trim()}
+          className="w-auto"
         >
           {intl.formatMessage({ id: 'admin/fortune-cookies.save-button'})}
         </Button>
       </div>
       {saveError && (
-        <div style={{ color: '#e13219', marginBottom: 16, fontSize: 14 }}>
+        <div className="dark-red mb3 f6">
           {saveError}
         </div>
       )}

@@ -1,9 +1,11 @@
 {
   "admin/fortune-cookies.title": "Galletas de la fortuna",
   "admin/fortune-cookies.title-column": "Galletas de la fortuna",
+  "admin/fortune-cookies.title-delete": "Borrar",
   "admin/fortune-cookies.empty-state-text": "No existen galletas de la forutna",
   "admin/fortune-cookies.empty-state-message": "Ingresa una galleta en el input",
   "admin/fortune-cookies.error-state-message": "hubo un error en el servidor vuelve a intentarlo",
   "admin/fortune-cookies.save-button":"Guardar",
-  "admin/fortune-cookies.input-placeholder":"Ingresa una oración"
+  "admin/fortune-cookies.input-placeholder":"Ingresa una oración",
+  "admin/fortune-cookies.delete-button":"borrar"
 }

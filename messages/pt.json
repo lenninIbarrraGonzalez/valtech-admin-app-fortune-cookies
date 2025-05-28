@@ -1,10 +1,12 @@
 {
   "admin/fortune-cookies.title": "biscoitos da sorte",
   "admin/fortune-cookies.title-column":"biscoitos da sorte",
+  "admin/fortune-cookies.title-delete": "Excluir",
   "admin/fortune-cookies.empty-state-text": "Não há biscoitos da sorte.",
   "admin/fortune-cookies.empty-state-message": "Insira um cookie na entrada",
   "admin/fortune-cookies.error-state-message": "Ocorreu um erro no servidor, tente novamente.",
   "admin/fortune-cookies.save-button":"Keep",
-  "admin/fortune-cookies.input-placeholder":"Digite uma frase"
+  "admin/fortune-cookies.input-placeholder":"Digite uma frase",
+  "admin/fortune-cookies.delete-button":"Excluir"
 
 }

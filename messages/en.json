@@ -1,9 +1,11 @@
 {
   "admin/fortune-cookies.title": "Fortune cookies",
   "admin/fortune-cookies.title-column": "Fortune cookies",
+  "admin/fortune-cookies.title-delete": "Delete",
   "admin/fortune-cookies.empty-state-text": "There are no fortune cookies.s",
   "admin/fortune-cookies.empty-state-message": "Enter a cookie in the input",
   "admin/fortune-cookies.error-state-message": "There was an error on the server, please try again.",
   "admin/fortune-cookies.save-button":"Save",
-  "admin/fortune-cookies.input-placeholder":"Enter a sentence"
+  "admin/fortune-cookies.input-placeholder":"Enter a sentence",
+  "admin/fortune-cookies.delete-button":"Delete"
 }
