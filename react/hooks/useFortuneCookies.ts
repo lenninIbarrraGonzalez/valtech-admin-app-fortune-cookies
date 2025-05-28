@@ -99,6 +99,10 @@ export function useFortuneCookies() {
 
   const onDeleteAll = useCallback(async () => {
     setDeleteAllError(null)
+    const confirmDelete = window.confirm('¿Estás seguro de que deseas borrar todas las galletas de la fortuna?')
+    if (!confirmDelete) {
+      return
+    }
     setDeletingAll(true)
     try {
       await Promise.all(
