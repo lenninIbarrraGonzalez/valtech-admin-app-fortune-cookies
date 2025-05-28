@@ -41,6 +41,9 @@ export const saveFortuneCookie = async (text: string) => {
     body: JSON.stringify({ CookieFortune: text }),
   })
   if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+
+  const result = await response.json()
+  return result
 }
 
 export const deleteFortuneCookie = async (id: string) => {
@@ -49,4 +52,58 @@ export const deleteFortuneCookie = async (id: string) => {
     headers: authHeaders,
   })
   if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+}
+
+export const checkDocumentExists = async (documentId: string): Promise<boolean> => {
+  try {
+    const response = await fetch(`/api/dataentities/CF/documents/${documentId}`, {
+      method: 'GET',
+      headers: authHeaders,
+    })
+    return response.ok
+  } catch {
+    return false
+  }
+}
+
+
+export const fetchWithRetryUntilFound = async (
+  from: number,
+  to: number,
+  expectedText?: string,
+  maxRetries: number = 6
+) => {
+  const retryDelay = 1500
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    if (attempt > 0) {
+      await new Promise(resolve => setTimeout(resolve, retryDelay))
+    }
+
+    try {
+      const result = await fetchFortuneCookies(from, to)
+
+      if (!expectedText) {
+        return result
+      }
+
+      const hasExpectedText = result.cookies.some(cookie =>
+        cookie.text.trim().toLowerCase() === expectedText.trim().toLowerCase()
+      )
+
+      if (hasExpectedText) {
+        return result
+      }
+
+      if (attempt === maxRetries - 1) {
+        return result
+      }
+    } catch (error) {
+      if (attempt === maxRetries - 1) {
+        throw error
+      }
+    }
+  }
+
+  return await fetchFortuneCookies(from, to)
 }

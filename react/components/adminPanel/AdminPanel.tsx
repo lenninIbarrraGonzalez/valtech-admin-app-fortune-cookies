@@ -1,4 +1,4 @@
-import React, { useEffect, ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { Table, Input, Button } from 'vtex.styleguide'
 import { useIntl } from 'react-intl'
 import { useFortuneCookies } from '../../hooks/useFortuneCookies'
@@ -15,18 +15,12 @@ const AdminPanel: React.FC = () => {
     onSave,
     onDelete,
     PAGE_SIZE,
-    fetchData,
     deletingAll,
     deleteAllError,
     onDeleteAll,
   } = useFortuneCookies()
   const intl = useIntl()
   const [newPhrase, setNewPhrase] = useState<string>('')
-
-  useEffect(() => {
-    fetchData(page)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
 
   const schema = {
     properties: {
@@ -86,8 +80,6 @@ const AdminPanel: React.FC = () => {
           {intl.formatMessage({ id: 'admin/fortune-cookies.save-button', defaultMessage: 'Guardar' })}
         </Button>
       </div>
-
-
 
       <Table
         fullWidth

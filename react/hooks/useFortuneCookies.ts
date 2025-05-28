@@ -1,6 +1,11 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { InfoCookieState } from '../types/fortuneCookies'
-import { fetchFortuneCookies, saveFortuneCookie, deleteFortuneCookie } from '../services/fortuneCookiesService'
+import {
+  fetchFortuneCookies,
+  saveFortuneCookie,
+  deleteFortuneCookie,
+  fetchWithRetryUntilFound
+} from '../services/fortuneCookiesService'
 
 const PAGE_SIZE = 10
 
@@ -46,29 +51,51 @@ export function useFortuneCookies() {
   const onSave = useCallback(async (text: string) => {
     setSaving(true)
     setSaveError(null)
+
     try {
       await saveFortuneCookie(text)
-      setTimeout(() => fetchData(page), 500)
-    } catch {
+      setPage(1)
+      const { cookies, total: newTotal } = await fetchWithRetryUntilFound(0, PAGE_SIZE - 1, text)
+
+      setInfoCookie({
+        data: cookies,
+        isLoading: false,
+        hasError: false,
+        error: null,
+      })
+      setTotal(newTotal)
+    } catch (error) {
+      console.error('Error saving fortune cookie:', error)
       setSaveError('The sentence could not be saved. Please try again later.')
     } finally {
       setSaving(false)
     }
-  }, [fetchData, page])
+  }, [])
 
   const onDelete = useCallback(async (id: string) => {
     setDeletingId(id)
     setSaveError(null)
     try {
       await deleteFortuneCookie(id)
-      fetchData(page)
-    } catch {
-      setSaveError('The sentence could not be saved. Please try again later.')
+
+      const from = (page - 1) * PAGE_SIZE
+      const to = from + PAGE_SIZE - 1
+      const { cookies, total: newTotal } = await fetchWithRetryUntilFound(from, to)
+
+      setInfoCookie({
+        data: cookies,
+        isLoading: false,
+        hasError: false,
+        error: null,
+      })
+      setTotal(newTotal)
+    } catch (error) {
+      console.error('Error deleting fortune cookie:', error)
+      setSaveError('The sentence could not be deleted. Please try again later.')
     } finally {
       setDeletingId(null)
     }
-  }, [fetchData, page])
-
+  }, [page])
 
   const onDeleteAll = useCallback(async () => {
     setDeleteAllError(null)
@@ -77,13 +104,29 @@ export function useFortuneCookies() {
       await Promise.all(
         infoCookie.data.map((cookie: { id: string }) => deleteFortuneCookie(cookie.id))
       )
-      fetchData(page)
+
+      setPage(1)
+
+      const { cookies, total: newTotal } = await fetchWithRetryUntilFound(0, PAGE_SIZE - 1)
+
+      setInfoCookie({
+        data: cookies,
+        isLoading: false,
+        hasError: false,
+        error: null,
+      })
+      setTotal(newTotal)
     } catch (error) {
-      setDeleteAllError('The sentence could not be saved. Please try again later.')
+      console.error('Error deleting all fortune cookies:', error)
+      setDeleteAllError('The sentences could not be deleted. Please try again later.')
     } finally {
       setDeletingAll(false)
     }
-  }, [infoCookie.data, fetchData, page])
+  }, [infoCookie.data])
+
+  useEffect(() => {
+    fetchData(page)
+  }, [page, fetchData])
 
   return {
     infoCookie,
