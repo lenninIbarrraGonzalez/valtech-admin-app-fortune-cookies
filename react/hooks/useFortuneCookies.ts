@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import {  InfoCookieState } from '../types/fortuneCookies'
+import { InfoCookieState } from '../types/fortuneCookies'
 import { fetchFortuneCookies, saveFortuneCookie, deleteFortuneCookie } from '../services/fortuneCookiesService'
 
 const PAGE_SIZE = 10
@@ -16,6 +16,8 @@ export function useFortuneCookies() {
   const [saving, setSaving] = useState<boolean>(false)
   const [saveError, setSaveError] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [deletingAll, setDeletingAll] = useState<boolean>(false)
+  const [deleteAllError, setDeleteAllError] = useState<string | null>(null)
 
   const fetchData = useCallback(async (pageNumber: number = 1) => {
     setInfoCookie((prev) => ({ ...prev, isLoading: true }))
@@ -61,11 +63,27 @@ export function useFortuneCookies() {
       await deleteFortuneCookie(id)
       fetchData(page)
     } catch {
-      setSaveError('The phrase could not be deleted. Please try again later.')
+      setSaveError('The sentence could not be saved. Please try again later.')
     } finally {
       setDeletingId(null)
     }
   }, [fetchData, page])
+
+
+  const onDeleteAll = useCallback(async () => {
+    setDeleteAllError(null)
+    setDeletingAll(true)
+    try {
+      await Promise.all(
+        infoCookie.data.map((cookie: { id: string }) => deleteFortuneCookie(cookie.id))
+      )
+      fetchData(page)
+    } catch (error) {
+      setDeleteAllError('The sentence could not be saved. Please try again later.')
+    } finally {
+      setDeletingAll(false)
+    }
+  }, [infoCookie.data, fetchData, page])
 
   return {
     infoCookie,
@@ -79,5 +97,8 @@ export function useFortuneCookies() {
     onDelete,
     fetchData,
     PAGE_SIZE,
+    deletingAll,
+    deleteAllError,
+    onDeleteAll,
   }
 }

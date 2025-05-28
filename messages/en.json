@@ -13,6 +13,6 @@
   "admin/fortune-cookies.emptyStateLabel-table":"There are no sentences",
   "admin/fortune-cookies.isErrorTrue":"An error occurred while loading the phrases",
   "admin/fortune-cookies.isErrorFalse":"No phrases available",
-  "admin/fortune-cookies.saveError":"The sentence could not be saved. Please try again later"
-
+  "admin/fortune-cookies.saveError":"The sentence could not be saved. Please try again later",
+  "admin/fortune-cookies.deleteAllFortuneCookies":"Delete all fortune cookies"
 }
