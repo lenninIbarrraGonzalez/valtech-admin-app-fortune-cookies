@@ -13,5 +13,6 @@
   "admin/fortune-cookies.emptyStateLabel-table":"No hay frases",
   "admin/fortune-cookies.isErrorTrue":"Ocurrió un error al cargar las frases",
   "admin/fortune-cookies.isErrorFalse":"No hay frases disponibles",
-  "admin/fortune-cookies.saveError":"No se pudo guardar la frase. Por favor, inténtalo más tarde"
+  "admin/fortune-cookies.saveError":"No se pudo guardar la frase. Por favor, inténtalo más tarde",
+  "admin/fortune-cookies.deleteAllFortuneCookies":"Borrar todas las galletas de la fortuna"
 }

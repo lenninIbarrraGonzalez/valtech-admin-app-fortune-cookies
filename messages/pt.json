@@ -13,6 +13,6 @@
   "admin/fortune-cookies.emptyStateLabel-table":"Não há frases",
   "admin/fortune-cookies.isErrorTrue":"Ocorreu um erro ao carregar as frases",
   "admin/fortune-cookies.isErrorFalse":"Nenhuma frase disponível",
-  "admin/fortune-cookies.saveError":"A frase não pôde ser salva. Tente novamente mais tarde."
-
+  "admin/fortune-cookies.saveError":"A frase não pôde ser salva. Tente novamente mais tarde.",
+  "admin/fortune-cookies.deleteAllFortuneCookies":"Exclua todos os biscoitos da sorte"
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, ChangeEvent, useState } from 'react'
 import { Table, Input, Button } from 'vtex.styleguide'
-import { useFortuneCookies } from '../../hooks/useFortuneCookies'
 import { useIntl } from 'react-intl'
+import { useFortuneCookies } from '../../hooks/useFortuneCookies'
 
 const AdminPanel: React.FC = () => {
   const {
@@ -16,6 +16,9 @@ const AdminPanel: React.FC = () => {
     onDelete,
     PAGE_SIZE,
     fetchData,
+    deletingAll,
+    deleteAllError,
+    onDeleteAll,
   } = useFortuneCookies()
   const intl = useIntl()
   const [newPhrase, setNewPhrase] = useState<string>('')
@@ -63,7 +66,7 @@ const AdminPanel: React.FC = () => {
         <Input
           value={newPhrase}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPhrase(e.target.value)}
-          placeholder={intl.formatMessage({ id: 'admin/fortune-cookies.empty-state-message' })}
+          placeholder={intl.formatMessage({ id: 'admin/fortune-cookies.empty-state-message', defaultMessage: 'Escribe una nueva frase' })}
           size="regular"
           disabled={saving}
           className="w-50 mr4"
@@ -80,14 +83,11 @@ const AdminPanel: React.FC = () => {
           disabled={saving || !newPhrase.trim()}
           className="w-auto"
         >
-          {intl.formatMessage({ id: 'admin/fortune-cookies.save-button' })}
+          {intl.formatMessage({ id: 'admin/fortune-cookies.save-button', defaultMessage: 'Guardar' })}
         </Button>
       </div>
-      {saveError && (
-        <div className="dark-red mb3 f6">
-          {saveError}
-        </div>
-      )}
+
+
 
       <Table
         fullWidth
@@ -100,8 +100,8 @@ const AdminPanel: React.FC = () => {
         emptyStateChildren={
           <span className="c-muted-1">
             {infoCookie.hasError
-              ? intl.formatMessage({ id: 'admin/fortune-cookies.isErrorTrue' })
-              : intl.formatMessage({ id: 'admin/fortune-cookies.isErrorFalse' })}
+              ? intl.formatMessage({ id: 'admin/fortune-cookies.error-state-message' })
+              : intl.formatMessage({ id: 'admin/fortune-cookies.empty-state-message' })}
           </span>
         }
         pagination={{
@@ -109,11 +109,34 @@ const AdminPanel: React.FC = () => {
           currentItemTo: to,
           onNextClick: () => setPage(prev => prev + 1),
           onPrevClick: () => setPage(prev => prev - 1),
-          textShowRows:intl.formatMessage({ id: 'admin/fortune-cookies.textShowRows-paginatio' }),
+          textShowRows: intl.formatMessage({ id: 'admin/fortune-cookies.textShowRows-paginatio' }),
           textOf: intl.formatMessage({ id: 'admin/fortune-cookies.of-pagination' }),
           totalItems: total,
         }}
       />
+
+      <div className="mt6 flex justify-center">
+        <Button
+          variation="danger"
+          onClick={onDeleteAll}
+          isLoading={deletingAll}
+          disabled={infoCookie.data.length === 0 || deletingAll}
+        >
+          {intl.formatMessage({ id: 'admin/fortune-cookies.deleteAllFortuneCookies' })}
+        </Button>
+      </div>
+
+      {deleteAllError && (
+        <div className="dark-red mb3 f6 tc">
+          {deleteAllError}
+        </div>
+      )}
+
+      {saveError && (
+        <div className="dark-red mb3 f6">
+          {saveError}
+        </div>
+      )}
     </>
   )
 }
