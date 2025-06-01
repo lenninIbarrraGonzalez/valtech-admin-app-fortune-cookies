@@ -97,6 +97,23 @@ export function useFortuneCookies() {
     }
   }, [page])
 
+  const getAllCookieIds = async (): Promise<string[]> => {
+    let allIds: string[] = []
+    let from = 0
+    const pageSize = 100
+    let keepFetching = true
+
+    while (keepFetching) {
+      const { cookies, total } = await fetchFortuneCookies(from, from + pageSize - 1)
+      allIds = allIds.concat(cookies.map(cookie => cookie.id))
+      from += pageSize
+      if (allIds.length >= total) {
+        keepFetching = false
+      }
+    }
+    return allIds
+  }
+
   const onDeleteAll = useCallback(async () => {
     setDeleteAllError(null)
     const confirmDelete = window.confirm('¿Estás seguro de que deseas borrar todas las galletas de la fortuna?')
@@ -105,14 +122,10 @@ export function useFortuneCookies() {
     }
     setDeletingAll(true)
     try {
-      await Promise.all(
-        infoCookie.data.map((cookie: { id: string }) => deleteFortuneCookie(cookie.id))
-      )
-
+      const allIds = await getAllCookieIds()
+      await Promise.all(allIds.map(id => deleteFortuneCookie(id)))
       setPage(1)
-
       const { cookies, total: newTotal } = await fetchWithRetryUntilFound(0, PAGE_SIZE - 1)
-
       setInfoCookie({
         data: cookies,
         isLoading: false,
@@ -126,7 +139,7 @@ export function useFortuneCookies() {
     } finally {
       setDeletingAll(false)
     }
-  }, [infoCookie.data])
+  }, [])
 
   useEffect(() => {
     fetchData(page)

@@ -97,8 +97,8 @@ const AdminPanel: React.FC = () => {
           </span>
         }
         pagination={{
-          currentItemFrom: from + 1,
-          currentItemTo: to,
+          currentItemFrom: total === 0 ? 0 : from + 1,
+          currentItemTo: total === 0 ? 0 : to,
           onNextClick: () => setPage(prev => prev + 1),
           onPrevClick: () => setPage(prev => prev - 1),
           textShowRows: intl.formatMessage({ id: 'admin/fortune-cookies.textShowRows-paginatio' }),

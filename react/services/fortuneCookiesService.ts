@@ -58,7 +58,7 @@ export const checkDocumentExists = async (documentId: string): Promise<boolean> 
   try {
     const response = await fetch(`/api/dataentities/CF/documents/${documentId}`, {
       method: 'GET',
-      headers: authHeaders,
+      headers: { ...authHeaders, 'REST-Range': 'resources=0-400' },
     })
     return response.ok
   } catch {
