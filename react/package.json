@@ -1,5 +1,5 @@
 {
-  "name": "vtex.admin-example",
+  "name": "fortune-cookies-admin",
   "version": "0.0.12",
   "devDependencies": {
     "@types/node": "^11.12.1",

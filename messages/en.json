@@ -1,9 +1,18 @@
 {
-  "admin-example.navigation.label-group": "Example admins",
-  "admin-example.navigation.label-table": "Example table",
-  "admin-example.navigation.search.kws": "test, mock, fake",
-  "admin-example.navigation.details.search.kws": "details, mock, test, hello",
-  "admin-example.navigation.table.search.kws": "table, mock, test, bye",
-  "admin-example.hello-world": "Example Admin",
-  "admin-example.details": "Details page"
+  "admin/fortune-cookies.title": "Fortune cookies",
+  "admin/fortune-cookies.title-column": "Fortune cookies",
+  "admin/fortune-cookies.title-delete": "Delete",
+  "admin/fortune-cookies.empty-state-text": "There are no fortune cookies",
+  "admin/fortune-cookies.empty-state-message": "Enter a cookie",
+  "admin/fortune-cookies.error-state-message": "There was an error on the server, please try again.",
+  "admin/fortune-cookies.save-button":"Save",
+  "admin/fortune-cookies.input-placeholder":"Enter a sentence",
+  "admin/fortune-cookies.delete-button":"Delete",
+  "admin/fortune-cookies.of-pagination":"of",
+  "admin/fortune-cookies.textShowRows-pagination":"Show rows",
+  "admin/fortune-cookies.emptyStateLabel-table":"There are no sentences",
+  "admin/fortune-cookies.isErrorTrue":"An error occurred while loading the phrases",
+  "admin/fortune-cookies.isErrorFalse":"No phrases available",
+  "admin/fortune-cookies.saveError":"The sentence could not be saved. Please try again later",
+  "admin/fortune-cookies.deleteAllFortuneCookies":"Delete all fortune cookies"
 }

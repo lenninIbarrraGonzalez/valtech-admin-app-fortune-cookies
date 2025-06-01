@@ -1,15 +1,16 @@
 {
-  "name": "admin-example",
-  "vendor": "vtex",
-  "version": "0.0.12",
-  "title": "Example Admin App",
-  "description": "",
+  "name": "fortune-cookies-admin",
+  "vendor": "valtech",
+  "version": "0.0.1",
+  "title": "Admin app fortune cookies",
+  "description": "Application for the admin, manages the master data of fortune cookies",
   "mustUpdateAt": "2022-08-28",
   "scripts": {
     "postreleasy": "vtex publish"
   },
   "dependencies": {
-    "vtex.styleguide": "9.x"
+    "vtex.styleguide": "9.x",
+    "vtex.admin": "2.x"
   },
   "builders": {
     "react": "3.x",

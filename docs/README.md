@@ -1,25 +1,136 @@
-# [Deprecating] Admin Example
+# Fortune Cookies Admin
 
-_We're working on our new design system. Please get in touch if you are part of VTEX product team and working on an admin app. If you are external to VTEX you can still use this repo._
+Aplicación de administración para gestionar frases de "galletas de la fortuna" en Master Data de VTEX.
 
-An example admin app that adds a menu button to the admin sidebar and a navigation via parameter example.
+---
+![Demo de la app](tutorial.gif)
+---
 
-### How to develop admins
+## 📦 Instrucciones de instalación y despliegue
 
-1. Admins always declare routes in `/admin/app/<route>`
+### Requisitos previos
 
-2. Declare the `admin` builder in your manifest
+- Node.js >= 12.x
+- VTEX Toolbelt (`yarn i -g vtex`)
+- Acceso a una cuenta VTEX IO con permisos de desarrollador
 
-3. When installed, the user navigates to `/admin/<route>`, but your app runs in an iframe that points to `/admin/app/<route>`.
+### Instalación local
 
-4. You can develop directly in the `/admin/app` route for convenience, but don't forget to test it inside the iframe. :)
+1. **Clona el repositorio:**
+   ```sh
+   git clone <url-del-repositorio>
+   cd fortune-cookies-admin
+   ```
 
-### Quickstart
+2. **Instala dependencias del frontend:**
+   ```sh
+   cd react
+   yarn
+   ```
 
-1. Clone this repo
+3. **Vincula la app a tu cuenta VTEX:**
+   ```sh
+   vtex login <tu-cuenta>
+   vtex use <tu-workspace>
+   vtex link
+   ```
 
-2. `yarn --cwd react/` for code completion
+4. **Accede a la app:**
+   - Ve a `https://<workspace>--<account>.myvtex.com/admin/app/fortune-cookies`
 
-3. `vtex link`
+### Despliegue en producción
 
-4. Navigate to `workspace--account.myvtex.com/admin/app/example`
+1. **Publica la app:**
+   ```sh
+   vtex publish
+   ```
+
+2. **Instala la app en el workspace master:**
+   ```sh
+   vtex install <vendor>.fortune-cookies-admin@<version>
+   ```
+
+---
+
+## 🏗️ Descripción general de la arquitectura
+
+- **Frontend:**  
+  - React + TypeScript
+  - Uso de VTEX Styleguide para UI
+  - Internacionalización con `react-intl`
+  - Hooks personalizados para lógica de negocio (`useFortuneCookies`)
+  - Comunicación con Master Data vía fetch y endpoints REST
+
+- **Estructura principal:**
+  ```
+  react/
+    components/
+      adminPanel/         # Componente principal de administración
+    hooks/
+      useFortuneCookies.ts # Hook para lógica de negocio y estado
+    services/
+      fortuneCookiesService.ts # Funciones para interactuar con Master Data
+    types/
+      fortuneCookies.ts   # Tipos TypeScript
+  admin/
+    routes.json          # Rutas de la app admin
+    navigation.json      # Configuración de menú en admin
+  messages/
+    *.json               # Archivos de internacionalización
+  ```
+
+- **Master Data:**  
+  - Entidad: `CF`  
+  - Campos: `id`, `CookieFortune`
+
+---
+
+## 🔌 Endpoints e integraciones
+
+### Endpoints usados (Master Data)
+
+- **Obtener frases (paginado):**
+  ```
+  GET /api/dataentities/CF/search?_fields=id,CookieFortune&_sort=createdIn DESC
+  Headers:
+    REST-Range: resources={from}-{to}
+  ```
+
+- **Crear nueva frase:**
+  ```
+  POST /api/dataentities/CF/documents
+  Body: { "CookieFortune": "<texto>" }
+  ```
+
+- **Eliminar frase:**
+  ```
+  DELETE /api/dataentities/CF/documents/{id}
+  ```
+
+- **Verificar existencia de documento:**
+  ```
+  GET /api/dataentities/CF/documents/{id}
+  ```
+
+### Integraciones
+
+- **VTEX Styleguide:**  
+  Para componentes visuales y tablas.
+- **react-intl:**  
+  Para internacionalización de la interfaz.
+- **Master Data:**  
+  Todas las operaciones CRUD se realizan sobre la entidad `CF` de Master Data vía REST API.
+
+---
+
+## 🚦 Notas adicionales
+
+- El paginador y la tabla se actualizan automáticamente al agregar o eliminar frases.
+- El botón "Borrar todas las galletas de la fortuna" elimina todos los registros de la entidad, no solo los visibles en la página actual.
+- El código está preparado para internacionalización (es, en, pt).
+
+---
+
+¿Dudas o sugerencias?  
+Abre un issue o contacta al equipo de desarrollo.
+Implementado por: Lennin Ibarra Desarrollador Frontend - ing.lenninibarra@gmail.com
